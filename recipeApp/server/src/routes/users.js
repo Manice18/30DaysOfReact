@@ -1,8 +1,10 @@
 import express from "express"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
 import { UserModel } from "../models/Users.js";
 
+dotenv.config()
 const router = express.Router();
 
 router.post("/register",async (req,res)=>{
@@ -32,7 +34,7 @@ router.post("/login", async (req,res)=>{
     if(!isPasswordValid){
         return res.json({message: "Invalid"})
     }
-    const token = jwt.sign({id: user._id}, "secret");
+    const token = jwt.sign({id: user._id}, process.env.SECRET);
     res.json({token, userID: user._id})
 })
 
@@ -41,7 +43,7 @@ export {router as userRouter};
 export const verifyToken = (req,res,next)=>{
     const token = req.headers.authorization;
     if(token){
-        jwt.verify(token,"secret",(err)=>{
+        jwt.verify(token,process.env.SECRET,(err)=>{
             if(err) return res.sendStatus(403);
             next();
         });

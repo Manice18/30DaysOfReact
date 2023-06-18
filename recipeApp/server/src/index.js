@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv"
 import mongoose from "mongoose";
 import {userRouter} from "./routes/users.js"
 import {recipesRouter} from "./routes/recipes.js"
+
+dotenv.config();
 
 const app = express()
 
@@ -11,8 +14,7 @@ app.use(cors());
 
 app.use("/auth",userRouter);
 app.use("/recipes",recipesRouter);
-
-mongoose.connect("mongodb+srv://dummy:dummy1234@recipe.wyt8rc9.mongodb.net/recipe?retryWrites=true&w=majority",
+mongoose.connect(process.env.MONGO_URI,
 {
     useNewUrlParser: true,
     useUnifiedTopology: true,

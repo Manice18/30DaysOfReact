@@ -66,6 +66,10 @@ const Home = () => {
               </button>
             </div>
             <div className="instructions">
+              <p>{recipe.description}</p>
+            </div>
+            <br />
+            <div className="instructions">
               <p>{recipe.instructions}</p>
             </div>
             <img src={recipe.imageUrl} alt={recipe.name} />
