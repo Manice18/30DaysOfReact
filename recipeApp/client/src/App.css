@@ -102,14 +102,9 @@ h2 {
 }
 
 img {
-  max-width: 100%;
-  height: auto;
   margin-bottom: 10px;
 }
 
-img {
-  width: 400px;
-}
 
 p {
   max-width: 400px;

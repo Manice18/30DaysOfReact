@@ -1,0 +1,30 @@
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: auto;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.mainImageContainer{
+  position: relative;
+  margin: 2rem 0;
+  width: 100%;
+  aspect-ratio: 12/7;
+}
+
+.mainImage{
+  object-fit: cover;
+  border: 40px;
+  box-shadow: 0 3px 8px rgb(0 0 0 / 24%);
+}
+
+.inputForm{
+  width: 100%;
+}
+
+.head{
+  color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 100px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center;
+}

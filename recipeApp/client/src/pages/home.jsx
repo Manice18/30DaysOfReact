@@ -72,7 +72,7 @@ const Home = () => {
             <div className="instructions">
               <p>{recipe.instructions}</p>
             </div>
-            <img src={recipe.imageUrl} alt={recipe.name} />
+            <img src={recipe.imageUrl} alt={recipe.name} height="100px" width="100px" />
             <p>Cooking Time: {recipe.cookingTime} minutes</p>
           </li>
         ))}
