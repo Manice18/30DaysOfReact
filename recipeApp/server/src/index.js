@@ -20,4 +20,4 @@ mongoose.connect(process.env.MONGO_URI,
     useUnifiedTopology: true,
 });
 
-app.listen(3001, ()=>console.log("Server started on port 3001"));
+app.listen(3002, ()=>console.log("Server started on port 3001"));
