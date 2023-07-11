@@ -1,0 +1,8 @@
+import { Iconn } from "@/components/Icons";
+
+interface SidebarOption {
+  id: number;
+  name: string;
+  href: string;
+  Icon: Iconn;
+}
