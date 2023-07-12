@@ -1,4 +1,3 @@
-import Button from "@/components/ui/Button";
 import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
@@ -8,14 +7,13 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FC } from "react";
 
 const page = async ({}) => {
   const session = await getServerSession(authOptions);
-
   if (!session) notFound();
 
   const friends = await getFriendsByUserId(session.user.id);
+
   const friendsWithLastMessage = await Promise.all(
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
@@ -25,19 +23,30 @@ const page = async ({}) => {
         -1
       )) as string[];
 
-      const lastMessage = JSON.parse(lastMessageRaw) as Message;
+      let me: Message = {
+        id: "",
+        senderId: "",
+        receiverId: "",
+        text: "",
+        timestamp: 0,
+      };
+      if (lastMessageRaw !== undefined) {
+        const lastMessage = JSON.parse(lastMessageRaw) as Message;
+        me = lastMessage;
+      }
 
       return {
         ...friend,
-        lastMessage,
+        me,
       };
     })
   );
+
   return (
     <div className="container py-12">
-      <h1 className="font-bold text-5xl mb-8">Recent Chats</h1>
+      <h1 className="font-bold text-5xl mb-8">Recent chats</h1>
       {friendsWithLastMessage.length === 0 ? (
-        <p className="text-sm text-zinc-500">Nothing to show here</p>
+        <p className="text-sm text-zinc-500">Nothing to show here...</p>
       ) : (
         friendsWithLastMessage.map((friend) => (
           <div
@@ -47,6 +56,7 @@ const page = async ({}) => {
             <div className="absolute right-4 inset-y-0 flex items-center">
               <ChevronRight className="h-7 w-7 text-zinc-400" />
             </div>
+
             <Link
               href={`/dashboard/chat/${chatHrefConstructor(
                 session.user.id,
@@ -65,15 +75,14 @@ const page = async ({}) => {
                   />
                 </div>
               </div>
+
               <div>
-                <h4 className="font-semibold text-lg">{friend.name}</h4>
+                <h4 className="text-lg font-semibold">{friend.name}</h4>
                 <p className="mt-1 max-w-md">
                   <span className="text-zinc-400">
-                    {friend.lastMessage.senderId === session.user.id
-                      ? "You: "
-                      : ""}
+                    {friend.me.senderId === session.user.id ? "You: " : ""}
                   </span>
-                  {friend.lastMessage.text}
+                  {friend.me.text}
                 </p>
               </div>
             </Link>
