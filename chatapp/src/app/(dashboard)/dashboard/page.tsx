@@ -23,11 +23,22 @@ const page = async ({}) => {
         -1
       )) as string[];
 
-      const lastMessage = JSON.parse(lastMessageRaw) as Message;
+      let me: Message = {
+        id: "",
+        senderId: "",
+        receiverId: "",
+        text: "",
+        timestamp: null,
+      };
+
+      if (lastMessageRaw !== undefined) {
+        const lastMessage = JSON.parse(lastMessageRaw) as Message;
+        me = lastMessage;
+      }
 
       return {
         ...friend,
-        lastMessage,
+        me,
       };
     })
   );
@@ -70,11 +81,9 @@ const page = async ({}) => {
                 <h4 className="text-lg font-semibold">{friend.name}</h4>
                 <p className="mt-1 max-w-md">
                   <span className="text-zinc-400">
-                    {friend.lastMessage.senderId === session.user.id
-                      ? "You: "
-                      : ""}
+                    {friend.me.senderId === session.user.id ? "You: " : ""}
                   </span>
-                  {friend.lastMessage.text}
+                  {friend.me.text}
                 </p>
               </div>
             </Link>
