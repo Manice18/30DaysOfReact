@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     const session = await getServerSession(authOptions);
     if (!session) {
-      return new Response("Unthorized", { status: 401 });
+      return new Response("Unauthorized", { status: 401 });
     }
 
     const isAlreadyFriends = await fetchRedis(

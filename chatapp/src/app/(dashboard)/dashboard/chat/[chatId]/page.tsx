@@ -15,14 +15,14 @@ interface PageProps {
 
 async function getChatMessages(chatId: string) {
   try {
-    const result: string[] = await fetchRedis(
+    const results: string[] = await fetchRedis(
       "zrange",
       `chat:${chatId}:messages`,
       0,
       -1
     );
 
-    const dbMessages = result.map((message) => JSON.parse(message) as Message);
+    const dbMessages = results.map((message) => JSON.parse(message) as Message);
 
     const reversedDbMessages = dbMessages.reverse();
 

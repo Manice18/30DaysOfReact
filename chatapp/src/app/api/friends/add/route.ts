@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       return new Response("Already friends with this user", { status: 400 });
     }
 
-    pusherServer.trigger(
+    await pusherServer.trigger(
       toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
       "incoming_friend_requests",
       {
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     );
 
     //send request
-    db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
 
     return new Response("OK");
   } catch (error) {
